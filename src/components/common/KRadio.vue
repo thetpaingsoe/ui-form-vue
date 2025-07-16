@@ -84,7 +84,7 @@ watch(
           class="mt-2 flex-1 flex items-center cursor-pointer px-4 py-2 rounded-md text-sm font-medium border-half-px text-gray-400 focus-within:outline-none"
           :class="[
             modelValue === option.value
-              ? 'bg-primary border-gray-300'
+              ? ' border-green-500'
               : touched && !validationState.status
                 ? 'bg-primary-dark border-red-400 hover:border-white'
                 : 'bg-primary-dark border-gray-300 hover:border-white',
@@ -97,7 +97,7 @@ watch(
             :value="option.value"
             :checked="modelValue === option.value"
             @change="selectOption(option.value)"
-            class="mr-2 accent-primary-dark"
+            class="mr-2 accent-green-500"
           />
           {{ option.label }}
         </label>

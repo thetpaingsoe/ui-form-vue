@@ -147,6 +147,33 @@ const areAllSharedIssuedValidation = {
   validate: (val) => val !== null,
   message: 'Please choose Yes or No.',
 }
+
+// Number of Issued Shares
+const issuedShares = ref('')
+const issuedSharesValidationRule = {
+  validate: (value) => {
+    if (!value.trim()) {
+      return false // Empty or whitespace only
+    }
+    if (value < 1) {
+      return false // Specific disallowed name
+    }
+    if (value > Number(numOfShares.value | 0)) {
+      console.log(numOfShares.value)
+      return false
+    }
+    if (
+      (areAllSharedIssued != null) & (areAllSharedIssued.value != true) &&
+      value == Number(numOfShares.value | 0)
+    ) {
+      console.log('2')
+      return false
+    }
+
+    return true
+  },
+  message: 'Please input the valid issued shares.',
+}
 </script>
 
 <template>
@@ -285,6 +312,16 @@ const areAllSharedIssuedValidation = {
         label="Are all shares issued?"
         v-model="areAllSharedIssued"
         :validation-rule="areAllSharedIssuedValidation"
+        class="mt-4"
+      />
+
+      <KNumberInput
+        id="issued-shares"
+        label="Number of issued shares"
+        type="text"
+        placeholder="Write how many shares you wish to issue on day 1"
+        v-model="issuedShares"
+        :validation-rule="issuedSharesValidationRule"
         class="mt-4"
       />
     </div>
