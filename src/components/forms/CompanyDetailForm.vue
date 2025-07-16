@@ -144,7 +144,9 @@ const numOfSharesValidationRule = {
 // Are all shares issued?
 const areAllSharedIssued = ref(null)
 const areAllSharedIssuedValidation = {
-  validate: (val) => val !== null,
+  validate: (val) => {
+    return val !== null
+  },
   message: 'Please choose Yes or No.',
 }
 
@@ -166,13 +168,37 @@ const issuedSharesValidationRule = {
       (areAllSharedIssued != null) & (areAllSharedIssued.value != true) &&
       value == Number(numOfShares.value | 0)
     ) {
-      console.log('2')
+      return false
+    }
+
+    if (
+      (areAllSharedIssued != null) & (areAllSharedIssued.value == true) &&
+      value != Number(numOfShares.value | 0)
+    ) {
       return false
     }
 
     return true
   },
   message: 'Please input the valid issued shares.',
+}
+
+// Value Per Shares
+const selectedValuePerShares = ref(null)
+const valuePerSharesOptions = ref([
+  { value: null, text: 'Select how much each share is worth' },
+  { value: 100, text: '100 USD' },
+  { value: 200, text: '200 USD' },
+  { value: 300, text: '300 USD' },
+  { value: 400, text: '400 USD' },
+  { value: 500, text: '500 USD' },
+  { value: 600, text: '600 USD' },
+])
+const valuePerSharesValidationRule = {
+  validate: (value) => {
+    return value !== null && value !== ''
+  },
+  message: 'Please select a how much each share is worth.',
 }
 </script>
 
@@ -299,6 +325,7 @@ const issuedSharesValidationRule = {
     <div class="flex flex-col basis-4/7 ms-12 text-white">
       <KNumberInput
         id="num-of-shares"
+        cid="num-of-shares"
         label="Number of Shares"
         type="text"
         placeholder="Select how many shares you wish to have"
@@ -317,11 +344,23 @@ const issuedSharesValidationRule = {
 
       <KNumberInput
         id="issued-shares"
+        cid="issued-shares"
         label="Number of issued shares"
         type="text"
         placeholder="Write how many shares you wish to issue on day 1"
         v-model="issuedShares"
         :validation-rule="issuedSharesValidationRule"
+        class="mt-4"
+      />
+
+      <KDropdown
+        id="value-per-shares"
+        cid="value-per-shares"
+        label="Value per shares"
+        placeholder="Write how many shares you wish to issue on day 1"
+        v-model="selectedValuePerShares"
+        :options="valuePerSharesOptions"
+        :validation-rule="valuePerSharesValidationRule"
         class="mt-4"
       />
     </div>

@@ -6,7 +6,7 @@ const props = defineProps({
     type: [String, Number],
     default: '',
   },
-  id: {
+  cid: {
     type: String,
     required: true,
   },
@@ -89,11 +89,11 @@ watch(
 
 <template>
   <div class="flex flex-col">
-    <label :for="id" class="text-white font-medium mb-1">{{ label }}</label>
+    <label :for="cid" class="text-white font-medium mb-1">{{ label }}</label>
     <div class="relative">
       <input
         :type="type"
-        :id="id"
+        :id="cid"
         :value="modelValue"
         @input="handleInput"
         @blur="markAsTouched"
