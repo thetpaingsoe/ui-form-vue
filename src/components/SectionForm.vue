@@ -10,13 +10,12 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const components = [CompanyDetailForm, CompanyDetailForm, CompanyDetailForm]
-const sectionKeyMap = ['basic', 'details', 'summary']
+const sectionKeyMap = ['company_detail', 'shareholders', 'beneficial_owner', 'director']
 
 const currentComponent = computed(() => components[props.currentSection])
 const sectionKey = computed(() => sectionKeyMap[props.currentSection])
 </script>
 
 <template>
-  <component :is="currentComponent" />
-  <!-- v-model="modelValue[sectionKey]" -->
+  <component :is="currentComponent" v-model="modelValue[sectionKey]"> </component>
 </template>

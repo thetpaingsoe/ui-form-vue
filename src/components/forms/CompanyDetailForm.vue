@@ -1,13 +1,15 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, toRef, watch } from 'vue'
 import KInput from '../common/KInput.vue'
 import KDropdown from '../common/KDropdown.vue'
 import KMultiSelectDropdown from '../common/KMultiSelectDropdown.vue'
 import KNumberInput from '../common/KNumberInput.vue'
 import KRadio from '../common/KRadio.vue'
 
+// Receive the v-model from parent
+const modelValue = defineModel()
+
 // Full Name
-const fullName = ref('')
 const fullNameValidationRule = {
   validate: (value) => {
     if (!value.trim()) {
@@ -23,7 +25,6 @@ const fullNameValidationRule = {
 }
 
 // Email
-const email = ref('')
 const emailValidationRule = {
   validate: (value) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -36,13 +37,13 @@ const emailValidationRule = {
     if (!emailRegex.test(value)) {
       return false // Invalid format
     }
+
     return true
   },
   message: 'Email is required and must be a valid format. "korporatio@email.com" is not allowed.',
 }
 
 // Company Name
-const companyName = ref('')
 const companyNameValidateionState = ref({ status: false, message: 'Error!' })
 const companyNameValidationRule = {
   validate: (value) => {
@@ -59,23 +60,20 @@ const companyNameValidationRule = {
 }
 
 // Alternative Company Name
-const altCompanyName = ref('')
 const altCompanyNameValidationRule = {
   validate: (value) => {
     if (!value.trim()) {
       return false // Empty or whitespace only
     }
-    if (value.toLowerCase() === 'korporatio') {
-      return false // Specific disallowed name
+    if (value.toLowerCase() === modelValue.value.companyName.toLowerCase()) {
+      return false
     }
-
     return true
   },
-  message: 'Alternative Company name is required and "Korporatio" is not allowed.',
+  message: 'Alternative Company name is required and cannot be same with company name.',
 }
 
 // Company Designation
-const selectedDesignation = ref(null)
 const designationOptions = ref([
   { value: null, text: 'Select the option that you prefer' },
   { value: 'CEO', text: 'Chief Executive Officer' },
@@ -84,7 +82,6 @@ const designationOptions = ref([
   { value: 'CTO', text: 'Chief Technology Officer' },
   { value: 'CMO', text: 'Chief Marketing Officer' },
 ])
-
 const designationValidationRule = {
   validate: (value) => {
     return value !== null && value !== ''
@@ -93,7 +90,6 @@ const designationValidationRule = {
 }
 
 // Jurisdiction of operation
-const selectedOperationCountry = ref(null)
 const operationCountryOptions = ref([
   { value: null, text: 'Select the country where you are located' },
   { value: 'SG', text: 'Singapore' },
@@ -111,7 +107,6 @@ const operationCountryValidationRule = {
 }
 
 // Target Jurisdictions
-const selectedTargetCountry = ref([])
 const targetCountryOptions = [
   { value: 'SG', text: 'Singapore' },
   { value: 'US', text: 'United States' },
@@ -126,7 +121,6 @@ const targetCountryValidation = {
 }
 
 // Number of shares
-const numOfShares = ref('')
 const numOfSharesValidationRule = {
   validate: (value) => {
     if (!value.trim()) {
@@ -142,7 +136,6 @@ const numOfSharesValidationRule = {
 }
 
 // Are all shares issued?
-const areAllSharedIssued = ref(null)
 const areAllSharedIssuedValidation = {
   validate: (val) => {
     return val !== null
@@ -151,7 +144,6 @@ const areAllSharedIssuedValidation = {
 }
 
 // Number of Issued Shares
-const issuedShares = ref('')
 const issuedSharesValidationRule = {
   validate: (value) => {
     if (!value.trim()) {
@@ -160,20 +152,21 @@ const issuedSharesValidationRule = {
     if (value < 1) {
       return false // Specific disallowed name
     }
-    if (value > Number(numOfShares.value | 0)) {
-      console.log(numOfShares.value)
+    if (value > Number(modelValue.value.numOfShares | 0)) {
       return false
     }
     if (
-      (areAllSharedIssued != null) & (areAllSharedIssued.value != true) &&
-      value == Number(numOfShares.value | 0)
+      (modelValue.value.areAllSharedIssued != null) &
+        (modelValue.value.areAllSharedIssued != true) &&
+      value == Number(modelValue.value.numOfShares | 0)
     ) {
       return false
     }
 
     if (
-      (areAllSharedIssued != null) & (areAllSharedIssued.value == true) &&
-      value != Number(numOfShares.value | 0)
+      (modelValue.value.areAllSharedIssued != null) &
+        (modelValue.value.areAllSharedIssued == true) &&
+      value != Number(modelValue.value.numOfShares | 0)
     ) {
       return false
     }
@@ -184,7 +177,6 @@ const issuedSharesValidationRule = {
 }
 
 // Value Per Shares
-const selectedValuePerShares = ref(null)
 const valuePerSharesOptions = ref([
   { value: null, text: 'Select how much each share is worth' },
   { value: 100, text: '100 USD' },
@@ -217,7 +209,7 @@ const valuePerSharesValidationRule = {
         label="Full Name"
         type="text"
         placeholder="Enter full name"
-        v-model="fullName"
+        v-model="modelValue.fullName"
         :validation-rule="fullNameValidationRule"
       />
 
@@ -226,7 +218,7 @@ const valuePerSharesValidationRule = {
         label="Email"
         type="text"
         placeholder="Enter email"
-        v-model="email"
+        v-model="modelValue.email"
         :validation-rule="emailValidationRule"
         class="mt-4"
       />
@@ -248,7 +240,7 @@ const valuePerSharesValidationRule = {
         label="Company Name"
         type="text"
         placeholder="The name you want your company to have"
-        v-model="companyName"
+        v-model="modelValue.companyName"
         :validation-rule="companyNameValidationRule"
         :validation-state="companyNameValidateionState"
       />
@@ -258,7 +250,7 @@ const valuePerSharesValidationRule = {
         label="Alternative company name"
         type="text"
         placeholder="The name to use if the first name is not available"
-        v-model="altCompanyName"
+        v-model="modelValue.altCompanyName"
         :validation-rule="altCompanyNameValidationRule"
         class="mt-4"
       />
@@ -268,7 +260,7 @@ const valuePerSharesValidationRule = {
         cid="company-designation"
         label="Company designation"
         placeholder="Select the option that you prefer"
-        v-model="selectedDesignation"
+        v-model="modelValue.selectedDesignation"
         :options="designationOptions"
         :validation-rule="designationValidationRule"
         class="mt-4"
@@ -292,17 +284,17 @@ const valuePerSharesValidationRule = {
         cid="operation-country"
         label="Jurisdiction of operation"
         placeholder="Select the country where you are located"
-        v-model="selectedOperationCountry"
+        v-model="modelValue.selectedOperationCountry"
         :options="operationCountryOptions"
         :validation-rule="operationCountryValidationRule"
         class="mt-4"
       />
 
       <KMultiSelectDropdown
-        id="hobbies"
-        cid="hobbies"
-        label="Select your hobbies"
-        v-model="selectedTargetCountry"
+        id="target-country"
+        cid="target-country"
+        label="Target Jurisdictions"
+        v-model="modelValue.selectedTargetCountry"
         :options="targetCountryOptions"
         :validation-rule="targetCountryValidation"
         placeholder="Select the countries where your clients are located"
@@ -329,7 +321,7 @@ const valuePerSharesValidationRule = {
         label="Number of Shares"
         type="text"
         placeholder="Select how many shares you wish to have"
-        v-model="numOfShares"
+        v-model="modelValue.numOfShares"
         :validation-rule="numOfSharesValidationRule"
         class="mt-4"
       />
@@ -337,7 +329,7 @@ const valuePerSharesValidationRule = {
       <KRadio
         id="are-all-shared-issued"
         label="Are all shares issued?"
-        v-model="areAllSharedIssued"
+        v-model="modelValue.areAllSharedIssued"
         :validation-rule="areAllSharedIssuedValidation"
         class="mt-4"
       />
@@ -348,7 +340,7 @@ const valuePerSharesValidationRule = {
         label="Number of issued shares"
         type="text"
         placeholder="Write how many shares you wish to issue on day 1"
-        v-model="issuedShares"
+        v-model="modelValue.issuedShares"
         :validation-rule="issuedSharesValidationRule"
         class="mt-4"
       />
@@ -358,12 +350,11 @@ const valuePerSharesValidationRule = {
         cid="value-per-shares"
         label="Value per shares"
         placeholder="Write how many shares you wish to issue on day 1"
-        v-model="selectedValuePerShares"
+        v-model="modelValue.selectedValuePerShares"
         :options="valuePerSharesOptions"
         :validation-rule="valuePerSharesValidationRule"
         class="mt-4"
       />
     </div>
   </div>
-  <div class="mt-[300px]" />
 </template>

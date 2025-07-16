@@ -33,14 +33,3 @@ defineEmits(['navigate'])
     </div>
   </div>
 </template>
-
-<!-- <template>
-  <div class="flex text-primary-light items-center mt-12">
-    <div
-      class="text-white border-8 border-primary-light bg-primary-light rounded-full w-12 h-12 text-center pt-1"
-    >
-      1
-    </div>
-    <div class="ms-2 font-bold">Section Navigation</div>
-  </div>
-</template> -->

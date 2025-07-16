@@ -9,9 +9,13 @@ const sections = ['Company Details', 'Shareholders', 'Beneficial Owner', 'Direct
 const currentSection = ref(0)
 
 const formData = ref({
-  basic: {},
-  details: {},
-  summary: {},
+  company_detail: {
+    // fullName: 'Jeff',
+    // selectedDesignation: 'CEO',
+  },
+  shareholders: {},
+  beneficial_owner: {},
+  director: {},
 })
 
 function handleSectionChange(index) {
@@ -32,7 +36,7 @@ function handleSectionChange(index) {
     />
 
     <!-- Form Detail Screen -->
-    <SectionForm :currentSection="0" />
+    <SectionForm :currentSection="0" v-model="formData" />
 
     <!-- Actions -->
     <Actions />

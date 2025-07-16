@@ -150,7 +150,7 @@ watch(
               ? !isOpen
                 ? ' text-red-400'
                 : ' text-gray-400'
-              : modelValue != null
+              : modelValue.length > 0
                 ? ' text-green-400'
                 : ' text-gray-400',
           ]"
