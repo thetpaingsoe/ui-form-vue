@@ -10,6 +10,7 @@ import KRadio from '../common/KRadio.vue'
 const modelValue = defineModel()
 
 // Full Name
+const fullNameValidateionState = ref({})
 const fullNameValidationRule = {
   validate: (value) => {
     if (!value.trim()) {
@@ -25,6 +26,7 @@ const fullNameValidationRule = {
 }
 
 // Email
+const emailValidateionState = ref({})
 const emailValidationRule = {
   validate: (value) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -44,7 +46,7 @@ const emailValidationRule = {
 }
 
 // Company Name
-const companyNameValidateionState = ref({ status: false, message: 'Error!' })
+const companyNameValidateionState = ref({})
 const companyNameValidationRule = {
   validate: (value) => {
     if (!value.trim()) {
@@ -74,6 +76,7 @@ const altCompanyNameValidationRule = {
 }
 
 // Company Designation
+const designationValidateionState = ref({})
 const designationOptions = ref([
   { value: null, text: 'Select the option that you prefer' },
   { value: 'CEO', text: 'Chief Executive Officer' },
@@ -90,6 +93,7 @@ const designationValidationRule = {
 }
 
 // Jurisdiction of operation
+const operationCountryValidateionState = ref({})
 const operationCountryOptions = ref([
   { value: null, text: 'Select the country where you are located' },
   { value: 'SG', text: 'Singapore' },
@@ -192,6 +196,54 @@ const valuePerSharesValidationRule = {
   },
   message: 'Please select a how much each share is worth.',
 }
+
+function validate() {
+  var status = true
+  // if (!modelValue.value.fullName) {
+  //   fullNameValidateionState.value = {
+  //     status: true,
+  //     message: '',
+  //   }
+  //   status = false
+  // }
+
+  // if (!modelValue.value.email) {
+  //   emailValidateionState.value = {
+  //     status: true,
+  //     message: '',
+  //   }
+  //   status = false
+  // }
+
+  // if (!modelValue.value.companyName) {
+  //   companyNameValidateionState.value = {
+  //     status: true,
+  //     message: '',
+  //   }
+  //   status = false
+  // }
+
+  // if (!modelValue.value.selectedDesignation) {
+  //   designationValidateionState.value = {
+  //     status: true,
+  //     message: '',
+  //   }
+  //   status = false
+  // }
+
+  // if (!modelValue.value.selectedOperationCountry) {
+  //   operationCountryValidateionState.value = {
+  //     status: true,
+  //     message: '',
+  //   }
+  //   status = false
+  // }
+
+  return status
+}
+
+// Expose it to parent
+defineExpose({ validate })
 </script>
 
 <template>
@@ -211,6 +263,7 @@ const valuePerSharesValidationRule = {
         placeholder="Enter full name"
         v-model="modelValue.fullName"
         :validation-rule="fullNameValidationRule"
+        :validation-state="fullNameValidateionState"
       />
 
       <KInput
@@ -220,6 +273,7 @@ const valuePerSharesValidationRule = {
         placeholder="Enter email"
         v-model="modelValue.email"
         :validation-rule="emailValidationRule"
+        :validation-state="emailValidateionState"
         class="mt-4"
       />
     </div>
@@ -263,6 +317,7 @@ const valuePerSharesValidationRule = {
         v-model="modelValue.selectedDesignation"
         :options="designationOptions"
         :validation-rule="designationValidationRule"
+        :validation-state="designationValidateionState"
         class="mt-4"
       />
     </div>
@@ -287,6 +342,7 @@ const valuePerSharesValidationRule = {
         v-model="modelValue.selectedOperationCountry"
         :options="operationCountryOptions"
         :validation-rule="operationCountryValidationRule"
+        :validation-state="operationCountryValidateionState"
         class="mt-4"
       />
 
