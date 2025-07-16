@@ -1,0 +1,25 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: #5a3ff7;
+  --color-primary-light: #756aff;
+  --color-primary-dark: #0d1125;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  /* Change background color */
+  -webkit-box-shadow: 0 0 0px 1000px #1a202c inset !important; /* Example: dark background */
+  box-shadow: 0 0 0px 1000px #1a202c inset !important;
+
+  /* Change text color */
+  -webkit-text-fill-color: #ffffff !important; /* Example: white text */
+  caret-color: #ffffff !important; /* Example: white caret */
+}
