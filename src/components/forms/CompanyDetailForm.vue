@@ -4,6 +4,7 @@ import KInput from '../common/KInput.vue'
 import KDropdown from '../common/KDropdown.vue'
 import KMultiSelectDropdown from '../common/KMultiSelectDropdown.vue'
 import KNumberInput from '../common/KNumberInput.vue'
+import KRadio from '../common/KRadio.vue'
 
 // Full Name
 const fullName = ref('')
@@ -42,7 +43,7 @@ const emailValidationRule = {
 
 // Company Name
 const companyName = ref('')
-const companyNameValidateionState = ref({})
+const companyNameValidateionState = ref({ status: false, message: 'Error!' })
 const companyNameValidationRule = {
   validate: (value) => {
     if (!value.trim()) {
@@ -138,6 +139,13 @@ const numOfSharesValidationRule = {
     return true
   },
   message: 'Please enter number of shares at least 1 share.',
+}
+
+// Are all shares issued?
+const areAllSharedIssued = ref(null)
+const areAllSharedIssuedValidation = {
+  validate: (val) => val !== null,
+  message: 'Please choose Yes or No.',
 }
 </script>
 
@@ -269,6 +277,14 @@ const numOfSharesValidationRule = {
         placeholder="Select how many shares you wish to have"
         v-model="numOfShares"
         :validation-rule="numOfSharesValidationRule"
+        class="mt-4"
+      />
+
+      <KRadio
+        id="are-all-shared-issued"
+        label="Are all shares issued?"
+        v-model="areAllSharedIssued"
+        :validation-rule="areAllSharedIssuedValidation"
         class="mt-4"
       />
     </div>
