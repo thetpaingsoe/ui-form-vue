@@ -81,7 +81,7 @@ watch(
           v-for="option in options"
           :key="option.value"
           :for="`${id}-${option.value}`"
-          class="mt-2 flex-1 flex items-center cursor-pointer px-4 py-2 rounded-md text-sm font-medium border text-gray-400 focus-within:outline-none"
+          class="mt-2 flex-1 flex items-center cursor-pointer px-4 py-2 rounded-md text-sm font-medium border-half-px text-gray-400 focus-within:outline-none"
           :class="[
             modelValue === option.value
               ? 'bg-primary border-gray-300'
