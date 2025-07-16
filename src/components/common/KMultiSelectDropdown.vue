@@ -29,6 +29,10 @@ const props = defineProps({
       message: '',
     }),
   },
+  validationState: {
+    type: Object,
+    default: null,
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -50,6 +54,17 @@ const validationState = computed(() => {
     message: isValid ? '' : props.validationRule.message,
   }
 })
+
+watch(
+  () => props.validationState,
+  (newVal) => {
+    if (newVal && typeof newVal === 'object' && newVal.status == true) {
+      touched.value = true
+      validationState.value = newVal
+    }
+  },
+  { immediate: true },
+)
 
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value
