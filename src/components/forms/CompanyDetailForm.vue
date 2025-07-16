@@ -62,6 +62,7 @@ const companyNameValidationRule = {
 }
 
 // Alternative Company Name
+const altCompanyNameValidateionState = ref({})
 const altCompanyNameValidationRule = {
   validate: (value) => {
     if (!value.trim()) {
@@ -111,6 +112,7 @@ const operationCountryValidationRule = {
 }
 
 // Target Jurisdictions
+const targetCountryValidateionState = ref({})
 const targetCountryOptions = [
   { value: 'SG', text: 'Singapore' },
   { value: 'US', text: 'United States' },
@@ -125,6 +127,7 @@ const targetCountryValidation = {
 }
 
 // Number of shares
+const numOfSharesValidateionState = ref({})
 const numOfSharesValidationRule = {
   validate: (value) => {
     if (!value.trim()) {
@@ -140,6 +143,7 @@ const numOfSharesValidationRule = {
 }
 
 // Are all shares issued?
+const areAllSharedIssuedValidateionState = ref({})
 const areAllSharedIssuedValidation = {
   validate: (val) => {
     return val !== null
@@ -148,6 +152,7 @@ const areAllSharedIssuedValidation = {
 }
 
 // Number of Issued Shares
+const issuedSharesValidateionState = ref({})
 const issuedSharesValidationRule = {
   validate: (value) => {
     if (!value.trim()) {
@@ -181,6 +186,7 @@ const issuedSharesValidationRule = {
 }
 
 // Value Per Shares
+const valuePerSharesValidateionState = ref({})
 const valuePerSharesOptions = ref([
   { value: null, text: 'Select how much each share is worth' },
   { value: 100, text: '100 USD' },
@@ -199,45 +205,93 @@ const valuePerSharesValidationRule = {
 
 function validate() {
   var status = true
-  // if (!modelValue.value.fullName) {
-  //   fullNameValidateionState.value = {
-  //     status: true,
-  //     message: '',
-  //   }
-  //   status = false
-  // }
+  if (!modelValue.value.fullName) {
+    fullNameValidateionState.value = {
+      status: true,
+      message: '',
+    }
+    status = false
+  }
 
-  // if (!modelValue.value.email) {
-  //   emailValidateionState.value = {
-  //     status: true,
-  //     message: '',
-  //   }
-  //   status = false
-  // }
+  if (!modelValue.value.email) {
+    emailValidateionState.value = {
+      status: true,
+      message: '',
+    }
+    status = false
+  }
 
-  // if (!modelValue.value.companyName) {
-  //   companyNameValidateionState.value = {
-  //     status: true,
-  //     message: '',
-  //   }
-  //   status = false
-  // }
+  if (!modelValue.value.companyName) {
+    companyNameValidateionState.value = {
+      status: true,
+      message: '',
+    }
+    status = false
+  }
 
-  // if (!modelValue.value.selectedDesignation) {
-  //   designationValidateionState.value = {
-  //     status: true,
-  //     message: '',
-  //   }
-  //   status = false
-  // }
+  if (!modelValue.value.selectedDesignation) {
+    designationValidateionState.value = {
+      status: true,
+      message: '',
+    }
+    status = false
+  }
 
-  // if (!modelValue.value.selectedOperationCountry) {
-  //   operationCountryValidateionState.value = {
-  //     status: true,
-  //     message: '',
-  //   }
-  //   status = false
-  // }
+  if (!modelValue.value.selectedOperationCountry) {
+    operationCountryValidateionState.value = {
+      status: true,
+      message: '',
+    }
+    status = false
+  }
+
+  if (!modelValue.value.altCompanyName) {
+    altCompanyNameValidateionState.value = {
+      status: true,
+      message: '',
+    }
+    status = false
+  }
+
+  if (!modelValue.value.selectedTargetCountry) {
+    targetCountryValidateionState.value = {
+      status: true,
+      message: '',
+    }
+    status = false
+  }
+
+  if (!modelValue.value.numOfShares) {
+    numOfSharesValidateionState.value = {
+      status: true,
+      message: '',
+    }
+    status = false
+  }
+
+  if (!modelValue.value.areAllSharedIssued) {
+    areAllSharedIssuedValidateionState.value = {
+      status: true,
+      message: '',
+    }
+    status = false
+  }
+
+  if (!modelValue.value.issuedShares) {
+    issuedSharesValidateionState.value = {
+      status: true,
+      message: '',
+    }
+    status = false
+  }
+
+  if (!modelValue.value.selectedValuePerShares) {
+    valuePerSharesValidateionState.value = {
+      status: true,
+      message: '',
+    }
+    status = false
+  }
 
   return status
 }
@@ -306,6 +360,7 @@ defineExpose({ validate })
         placeholder="The name to use if the first name is not available"
         v-model="modelValue.altCompanyName"
         :validation-rule="altCompanyNameValidationRule"
+        :validation-state="altCompanyNameValidateionState"
         class="mt-4"
       />
 
@@ -353,6 +408,7 @@ defineExpose({ validate })
         v-model="modelValue.selectedTargetCountry"
         :options="targetCountryOptions"
         :validation-rule="targetCountryValidation"
+        :validation-state="targetCountryValidateionState"
         placeholder="Select the countries where your clients are located"
         class="mt-4"
       />
@@ -379,6 +435,7 @@ defineExpose({ validate })
         placeholder="Select how many shares you wish to have"
         v-model="modelValue.numOfShares"
         :validation-rule="numOfSharesValidationRule"
+        :validation-state="numOfSharesValidateionState"
         class="mt-4"
       />
 
@@ -387,6 +444,7 @@ defineExpose({ validate })
         label="Are all shares issued?"
         v-model="modelValue.areAllSharedIssued"
         :validation-rule="areAllSharedIssuedValidation"
+        :validation-state="areAllSharedIssuedValidateionState"
         class="mt-4"
       />
 
@@ -398,6 +456,7 @@ defineExpose({ validate })
         placeholder="Write how many shares you wish to issue on day 1"
         v-model="modelValue.issuedShares"
         :validation-rule="issuedSharesValidationRule"
+        :validation-state="issuedSharesValidateionState"
         class="mt-4"
       />
 
@@ -409,6 +468,7 @@ defineExpose({ validate })
         v-model="modelValue.selectedValuePerShares"
         :options="valuePerSharesOptions"
         :validation-rule="valuePerSharesValidationRule"
+        :validation-state="valuePerSharesValidateionState"
         class="mt-4"
       />
     </div>
