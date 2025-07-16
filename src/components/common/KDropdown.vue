@@ -2,17 +2,20 @@
   <div class="flex flex-col">
     <label :for="id" class="text-white font-medium mb-1">{{ label }}</label>
     <div class="relative">
-      <!-- Dropdown display area (mimics an input) -->
       <div
         :id="id"
         @click="toggleDropdown"
         @blur="markAsTouched"
         tabindex="0"
-        class="mt-1 block w-full rounded-md px-4 py-2 pr-10 cursor-pointer focus:outline-none focus:ring-2 sm:text-sm"
+        class="mt-1 block w-full border border-gray-200 rounded-md px-4 py-2.5 pr-10 cursor-pointer focus:outline-none focus:ring-2 sm:text-sm"
         :class="[
           touched && !validationState.status
-            ? 'border-red-500 focus:border-red-500 focus:ring-red-200 text-red-700'
-            : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200 text-white',
+            ? !isOpen
+              ? 'border-red-400 text-red-400'
+              : 'border-gray-300  focus:ring-blue-200 text-gray-400'
+            : modelValue != null
+              ? 'border-green-400  focus:ring-gren-400  text-white'
+              : 'border-gray-300  focus:ring-blue-200 text-gray-400',
           // Add background color for the dropdown display area
           'bg-primary-dark',
         ]"
@@ -22,21 +25,21 @@
 
       <!-- Dropdown Arrow Icon -->
       <span
-        class="absolute right-4 top-1/2 -translate-y-1/2 text-lg text-gray-400 pointer-events-none mt-1"
+        class="absolute right-4 top-1/2 -translate-y-1/2 text-lg text-gray-400 pointer-events-none"
       >
-        <i :class="isOpen ? 'fa-solid fa-caret-up' : 'fa-solid fa-caret-down'"></i>
+        <i
+          :class="[
+            isOpen ? 'fa-solid fa-caret-up' : 'fa-solid fa-caret-down',
+            touched && !validationState.status
+              ? !isOpen
+                ? ' text-red-400'
+                : ' text-gray-400'
+              : modelValue != null
+                ? ' text-green-400'
+                : ' text-gray-400',
+          ]"
+        ></i>
       </span>
-
-      <!-- Validation Icon -->
-      <!-- <span
-        v-if="touched && modelValue !== ''"
-        :class="[
-          'absolute right-3 top-1/2 -translate-y-1/2 text-lg',
-          validationState.status ? 'text-green-500' : 'text-red-500',
-        ]"
-      >
-        <i :class="validationState.status ? 'fas fa-check-circle' : 'fas fa-times-circle'"></i>
-      </span> -->
 
       <!-- Dropdown Options List -->
       <ul
@@ -48,8 +51,8 @@
           v-for="option in options"
           :key="option.value"
           @click="selectOption(option.value)"
-          class="px-4 py-2 cursor-pointer hover:bg-primary-light hover:text-blue-700 text-gray-800"
-          :class="{ 'bg-primary-light text-blue-700': modelValue === option.value }"
+          class="px-4 py-2 cursor-pointer hover:bg-primary text-white"
+          :class="{ 'bg-primary text-white': modelValue === option.value }"
           role="option"
           :aria-selected="modelValue === option.value"
         >
@@ -59,7 +62,7 @@
     </div>
 
     <!-- Error Message -->
-    <p v-if="touched && !validationState.status" class="mt-1 text-sm text-red-600">
+    <p v-if="touched && !validationState.status" class="mt-1 text-sm text-red-400">
       {{ validationState.message }}
     </p>
   </div>
@@ -86,7 +89,7 @@ const props = defineProps({
     default: 'Select an option',
   },
   options: {
-    type: Array, // Expected format: [{ value: '...', text: '...' }]
+    type: Array,
     required: true,
   },
   validationRule: {

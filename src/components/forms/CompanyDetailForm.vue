@@ -3,10 +3,8 @@ import { ref, watch } from 'vue'
 import KInput from '../common/KInput.vue'
 import KDropdown from '../common/KDropdown.vue'
 
+// Full Name
 const fullName = ref('')
-const fullNameValidation = ref({})
-
-// Define validation rules for Full Name
 const fullNameValidationRule = {
   validate: (value) => {
     if (!value.trim()) {
@@ -16,18 +14,16 @@ const fullNameValidationRule = {
       return false // Specific disallowed name
     }
 
-    return true // Valid
+    return true
   },
   message: 'Full name is required and "Korporatio" is not allowed.',
 }
 
+// Email
 const email = ref('')
-const emailValidation = ref({})
-
-// Define validation rules for Email
 const emailValidationRule = {
   validate: (value) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/ // Simple regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!value.trim()) {
       return false // Empty or whitespace only
     }
@@ -37,30 +33,60 @@ const emailValidationRule = {
     if (!emailRegex.test(value)) {
       return false // Invalid format
     }
-    return true // Valid
+    return true
   },
   message: 'Email is required and must be a valid format. "korporatio@email.com" is not allowed.',
 }
 
-const selectedCountry = ref(null) // Initialize with null or a default value from your options
+// Company Name
+const companyName = ref('')
+const companyNameValidationRule = {
+  validate: (value) => {
+    if (!value.trim()) {
+      return false // Empty or whitespace only
+    }
+    if (value.toLowerCase() === 'korporatio') {
+      return false // Specific disallowed name
+    }
 
-// 3. Define the options array for the dropdown
-const countryOptions = ref([
-  { value: null, text: 'Please select a country' }, // Optional: a default "select" option
-  { value: 'US', text: 'United States' },
-  { value: 'CA', text: 'Canada' },
-  { value: 'GB', text: 'United Kingdom' },
-  { value: 'AU', text: 'Australia' },
-  { value: 'TH', text: 'Thailand' },
+    return true
+  },
+  message: 'Company name is required and "Korporatio" is not allowed.',
+}
+
+// Alternative Company Name
+const altCompanyName = ref('')
+const altCompanyNameValidationRule = {
+  validate: (value) => {
+    if (!value.trim()) {
+      return false // Empty or whitespace only
+    }
+    if (value.toLowerCase() === 'korporatio') {
+      return false // Specific disallowed name
+    }
+
+    return true
+  },
+  message: 'Alternative Company name is required and "Korporatio" is not allowed.',
+}
+
+// Company Designation
+const selectedDesignation = ref(null)
+const designationOptions = ref([
+  { value: null, text: 'Select the option that you prefer' },
+  { value: 'CEO', text: 'Chief Executive Officer' },
+  { value: 'COO', text: 'Chief Operating Officer' },
+  { value: 'CFO', text: 'Chief Financial Officer' },
+  { value: 'CTO', text: 'Chief Technology Officer' },
+  { value: 'CMO', text: 'Chief Marketing Officer' },
 ])
-
 // 4. Define the validation rule for the dropdown
-const countryValidationRule = {
+const designationValidationRule = {
   validate: (value) => {
     // A simple validation: ensures a value is selected and not null or an empty string
     return value !== null && value !== ''
   },
-  message: 'Please select a country from the list.',
+  message: 'Please select a designation from the list.',
 }
 </script>
 
@@ -110,8 +136,8 @@ const countryValidationRule = {
         label="Company Name"
         type="text"
         placeholder="The name you want your company to have"
-        v-model="fullName"
-        :validation-rule="fullNameValidationRule"
+        v-model="companyName"
+        :validation-rule="companyNameValidationRule"
       />
 
       <KInput
@@ -119,20 +145,20 @@ const countryValidationRule = {
         label="Alternative company name"
         type="text"
         placeholder="The name to use if the first name is not available"
-        v-model="email"
-        :validation-rule="emailValidationRule"
+        v-model="altCompanyName"
+        :validation-rule="altCompanyNameValidationRule"
         class="mt-4"
       />
-      <!-- 
+
       <KDropdown
-        id="country-selector"
-        label="Select Your Country"
-        placeholder="Choose a country"
-        v-model="selectedCountry"
-        :options="countryOptions"
-        :validation-rule="countryValidationRule"
+        id="company-designation"
+        label="Company designation"
+        placeholder="Select the option that you prefer"
+        v-model="selectedDesignation"
+        :options="designationOptions"
+        :validation-rule="designationValidationRule"
         class="mt-4"
-      /> -->
+      />
 
       <div class="mt-[300px]" />
     </div>

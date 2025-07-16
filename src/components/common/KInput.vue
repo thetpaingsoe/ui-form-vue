@@ -82,7 +82,7 @@ watch(
         class="mt-2 border border-gray-200 rounded px-4 py-2 text-white focus:outline-none w-full"
         :class="[
           touched && !validationState.status
-            ? 'border-red-500  focus:ring-red-200 text-red-700'
+            ? 'border-red-400  focus:ring-red-200 text-red-400'
             : modelValue != ''
               ? 'border-green-400  focus:ring-gren-400 text-gray-800'
               : 'border-gray-300  focus:ring-blue-200 text-gray-800',
@@ -94,14 +94,14 @@ watch(
         v-if="touched"
         :class="[
           'absolute right-3 top-1/2 -translate-y-1/2 text-lg mt-1',
-          validationState.status ? 'text-green-500' : 'text-red-500',
+          validationState.status ? 'text-green-500' : 'text-red-400',
         ]"
       >
         <i :class="validationState.status ? 'fas fa-check-circle' : 'fas fa-times-circle'"></i>
       </span>
     </div>
     <!-- Error Message -->
-    <p v-if="touched && !validationState.status" class="mt-1 text-sm text-red-600">
+    <p v-if="touched && !validationState.status" class="mt-1 text-sm text-red-400">
       {{ validationState.message }}
     </p>
   </div>
