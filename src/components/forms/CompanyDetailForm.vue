@@ -41,7 +41,7 @@ const emailValidationRule = {
 
 // Company Name
 const companyName = ref('')
-const compnayNameValidateionState = ref({})
+const companyNameValidateionState = ref({})
 const companyNameValidationRule = {
   validate: (value) => {
     if (!value.trim()) {
@@ -141,7 +141,6 @@ const targetCountryValidation = {
         placeholder="Enter full name"
         v-model="fullName"
         :validation-rule="fullNameValidationRule"
-        :validation-state="compnayNameValidateionState"
       />
 
       <KInput
@@ -173,6 +172,7 @@ const targetCountryValidation = {
         placeholder="The name you want your company to have"
         v-model="companyName"
         :validation-rule="companyNameValidationRule"
+        :validation-state="companyNameValidateionState"
       />
 
       <KInput
