@@ -292,6 +292,7 @@ function validate() {
     }
     status = false
   }
+  // modelValue.value.selectedValuePerShares = modelValue.value.selectedValuePerShares
 
   return status
 }
@@ -354,7 +355,7 @@ defineExpose({ validate })
       />
 
       <KInput
-        id="email"
+        id="alt-company-name"
         label="Alternative company name"
         type="text"
         placeholder="The name to use if the first name is not available"

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed, defineProps, defineEmits, onMounted, onUnmounted } from 'vue'
+import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -60,7 +60,8 @@ watch(
   (newVal) => {
     if (newVal && typeof newVal === 'object' && newVal.status == true) {
       touched.value = true
-      validationState.value = newVal
+      // validationState.value.status = newVal.status
+      // validationState.value.message = newVal.message
     }
   },
   { immediate: true },
@@ -123,6 +124,7 @@ watch(
         :id="cid"
         @click="toggleDropdown"
         @blur="markAsTouched"
+        :data-test="cid"
         tabindex="0"
         class="mt-1 block w-full border-half-px rounded-md px-4 py-2.5 pr-10 cursor-pointer focus:outline-none focus:ring-0 sm:text-sm text-sm"
         :class="[

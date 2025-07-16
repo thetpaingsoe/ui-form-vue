@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed, defineProps, defineEmits, onMounted, onUnmounted } from 'vue'
+import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -60,7 +60,11 @@ watch(
   (newVal) => {
     if (newVal && typeof newVal === 'object' && newVal.status == true) {
       touched.value = true
-      validationState.value = newVal
+      // props.modelValue = props.modelValue
+      // validationState.value = newVal
+      // validationState.value.status = newVal.status
+      // validationState.value.message = newVal.message
+      // validationState()
     }
   },
   { immediate: true },
@@ -127,6 +131,7 @@ watch(
     <div class="relative">
       <div
         :id="cid"
+        :data-test="cid"
         @click="toggleDropdown"
         @blur="markAsTouched"
         tabindex="0"

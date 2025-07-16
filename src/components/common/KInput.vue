@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed, defineProps, defineEmits, onMounted } from 'vue'
+import { ref, watch, computed } from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -57,7 +57,8 @@ watch(
   (newVal) => {
     if (newVal && typeof newVal === 'object' && newVal.status == true) {
       touched.value = true
-      validationState.value = newVal
+      // validationState.value.status = newVal.status
+      // validationState.value.message = newVal.message
     }
   },
   { immediate: true },
@@ -91,6 +92,7 @@ watch(
       <input
         :type="type"
         :id="id"
+        :data-test="id"
         :value="modelValue"
         @input="handleInput"
         @blur="markAsTouched"

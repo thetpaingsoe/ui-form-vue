@@ -22,6 +22,7 @@
     </button>
 
     <button
+      id="nextForm"
       class="bg-primary text-white rounded-sm hover:bg-primary-light py-2 px-8 cursor-pointer"
       @click="$emit('next', currentSection + 1)"
     >

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed, defineProps, defineEmits } from 'vue'
+import { ref, watch, computed } from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -76,7 +76,7 @@ watch(
     <label :for="id" class="text-white font-medium mb-1">{{ label }}</label>
 
     <div class="flex">
-      <div role="radiogroup" :aria-labelledby="id" class="flex flex-col w-full">
+      <div role="radiogroup" :aria-labelledby="id" :data-test="id" class="flex flex-col w-full">
         <label
           v-for="option in options"
           :key="option.value"
