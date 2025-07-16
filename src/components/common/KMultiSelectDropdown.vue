@@ -3,8 +3,8 @@ import { ref, watch, computed, defineProps, defineEmits, onMounted, onUnmounted 
 
 const props = defineProps({
   modelValue: {
-    type: [String, Number, null], // Allow null for initial state
-    default: null,
+    type: Array,
+    default: () => [],
   },
   cid: {
     type: String,
@@ -16,7 +16,7 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
-    default: 'Select an option',
+    default: 'Select options',
   },
   options: {
     type: Array,
@@ -36,13 +36,13 @@ const emit = defineEmits(['update:modelValue'])
 const isOpen = ref(false)
 const touched = ref(false)
 
-// Computed property to display the text of the selected option
 const selectedOptionText = computed(() => {
-  const selected = props.options.find((option) => option.value === props.modelValue)
-  return selected ? selected.text : ''
+  const selectedTexts = props.options
+    .filter((option) => props.modelValue.includes(option.value))
+    .map((option) => option.text)
+  return selectedTexts.join(', ')
 })
 
-// Computed property for validation state
 const validationState = computed(() => {
   const isValid = props.validationRule.validate(props.modelValue)
   return {
@@ -51,39 +51,34 @@ const validationState = computed(() => {
   }
 })
 
-// Method to toggle dropdown visibility
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value
-  if (isOpen.value) {
-    // When opening, mark as touched if not already
-    touched.value = true
-  }
+  if (isOpen.value) touched.value = true
 }
 
-// Method to select an option
 const selectOption = (value) => {
-  emit('update:modelValue', value)
-  isOpen.value = false // Close dropdown after selection
-  touched.value = true // Mark as touched on selection
+  const current = [...props.modelValue]
+  const index = current.indexOf(value)
+
+  if (index > -1) {
+    current.splice(index, 1) // remove
+  } else if (current.length < 3) {
+    current.push(value) // add if under 3
+  }
+  emit('update:modelValue', current)
 }
 
-// Method to mark the dropdown as touched (on blur)
 const markAsTouched = () => {
-  // Delay setting touched to allow click event on options to fire first
   setTimeout(() => {
-    if (!isOpen.value) {
-      // Only mark as touched if dropdown is closed
-      touched.value = true
-    }
+    if (!isOpen.value) touched.value = true
   }, 100)
 }
 
-// Close dropdown when clicking outside
 const handleClickOutside = (event) => {
   const dropdownElement = document.getElementById(props.cid)?.closest('.relative')
   if (dropdownElement && !dropdownElement.contains(event.target)) {
     isOpen.value = false
-    touched.value = true // Mark as touched when clicking outside
+    touched.value = true
   }
 }
 
@@ -95,11 +90,10 @@ onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
 })
 
-// Reset touched state if modelValue becomes null/empty after having content
 watch(
   () => props.modelValue,
   (newVal) => {
-    if ((newVal === null || newVal === '') && touched.value) {
+    if ((!newVal || newVal.length === 0) && touched.value) {
       touched.value = false
     }
   },
@@ -115,16 +109,15 @@ watch(
         @click="toggleDropdown"
         @blur="markAsTouched"
         tabindex="0"
-        class="mt-1 block w-full border-half-px border-gray-200 rounded-md px-4 py-2.5 pr-10 cursor-pointer focus:outline-none focus:ring-2 sm:text-sm"
+        class="mt-1 block w-full border-half-px rounded-md px-4 py-2.5 pr-10 cursor-pointer focus:outline-none focus:ring-0 sm:text-sm text-sm"
         :class="[
           touched && !validationState.status
             ? !isOpen
               ? 'border-red-400 text-red-400'
-              : 'border-gray-300  focus:ring-blue-200 text-gray-400'
-            : modelValue != null
-              ? 'border-green-400  focus:ring-gren-400  text-white'
-              : 'border-gray-300  focus:ring-blue-200 text-gray-400',
-          // Add background color for the dropdown display area
+              : ' border-gray-400 text-gray-400'
+            : modelValue.length
+              ? 'border-green-400 text-white'
+              : 'border-gray-300 text-gray-400',
           'bg-primary-dark',
         ]"
       >
@@ -159,12 +152,17 @@ watch(
           v-for="option in options"
           :key="option.value"
           @click="selectOption(option.value)"
-          class="px-4 py-2 cursor-pointer hover:bg-primary text-white"
-          :class="{ 'bg-primary text-white': modelValue === option.value }"
+          class="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-primary text-white"
+          :class="{ 'bg-primary text-white': modelValue.includes(option.value) }"
           role="option"
-          :aria-selected="modelValue === option.value"
+          :aria-selected="modelValue.includes(option.value)"
         >
           {{ option.text }}
+          <input
+            type="checkbox"
+            :checked="modelValue.includes(option.value)"
+            class="form-checkbox text-primary"
+          />
         </li>
       </ul>
     </div>

@@ -23,3 +23,8 @@ select:-webkit-autofill:focus {
   -webkit-text-fill-color: #ffffff !important; /* Example: white text */
   caret-color: #ffffff !important; /* Example: white caret */
 }
+
+.border-half-px {
+  border-width: 0.5px;
+  border-style: solid; /* Don't forget border-style */
+}

@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import KInput from '../common/KInput.vue'
 import KDropdown from '../common/KDropdown.vue'
+import KMultiSelectDropdown from '../common/KMultiSelectDropdown.vue'
 
 // Full Name
 const fullName = ref('')
@@ -99,12 +100,26 @@ const operationCountryOptions = ref([
   { value: 'AU', text: 'Australia' },
   { value: 'TH', text: 'Thailand' },
 ])
-
 const operationCountryValidationRule = {
   validate: (value) => {
     return value !== null && value !== ''
   },
   message: 'Please select a operation country from the list.',
+}
+
+// Target Jurisdictions
+const selectedTargetCountry = ref([])
+const targetCountryOptions = [
+  { value: 'SG', text: 'Singapore' },
+  { value: 'US', text: 'United States' },
+  { value: 'CA', text: 'Canada' },
+  { value: 'GB', text: 'United Kingdom' },
+  { value: 'AU', text: 'Australia' },
+  { value: 'TH', text: 'Thailand' },
+]
+const targetCountryValidation = {
+  validate: (val) => val.length >= 1 && val.length <= 3,
+  message: 'Please select 1 to 3 target jurisdictions',
 }
 </script>
 
@@ -117,7 +132,7 @@ const operationCountryValidationRule = {
       also to the company once incorporated will be sent to the same email address. You can change
       it later on if required.
     </div>
-    <div class="flex flex-col basis-3/6 ms-12 text-white">
+    <div class="flex flex-col basis-4/7 ms-12 text-white">
       <KInput
         id="full-name"
         label="Full Name"
@@ -148,7 +163,7 @@ const operationCountryValidationRule = {
       letters and numbers, but not special symbols. For the designations, there is no actual
       different between one or another.
     </div>
-    <div class="flex flex-col basis-3/6 ms-12 text-white">
+    <div class="flex flex-col basis-4/7 ms-12 text-white">
       <KInput
         id="company-name"
         label="Company Name"
@@ -180,6 +195,7 @@ const operationCountryValidationRule = {
       />
     </div>
   </div>
+
   <!-- Countries of interest -->
   <div class="mt-8 font-bold text-white">Countries of interest</div>
   <div class="h-0.5 bg-primary-light ms-2"></div>
@@ -190,7 +206,7 @@ const operationCountryValidationRule = {
       have more shareholders, pick the most relevant. For 'target jurisdiction' select 1-3 countries
       that are relevant. Even if you will have clients from other counties, it's ok.
     </div>
-    <div class="flex flex-col basis-3/6 ms-12 text-white">
+    <div class="flex flex-col basis-4/7 ms-12 text-white">
       <KDropdown
         id="operation-country"
         cid="operation-country"
@@ -199,6 +215,17 @@ const operationCountryValidationRule = {
         v-model="selectedOperationCountry"
         :options="operationCountryOptions"
         :validation-rule="operationCountryValidationRule"
+        class="mt-4"
+      />
+
+      <KMultiSelectDropdown
+        id="hobbies"
+        cid="hobbies"
+        label="Select your hobbies"
+        v-model="selectedTargetCountry"
+        :options="targetCountryOptions"
+        :validation-rule="targetCountryValidation"
+        placeholder="Select the countries where your clients are located"
         class="mt-4"
       />
     </div>

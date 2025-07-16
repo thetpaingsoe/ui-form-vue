@@ -79,7 +79,7 @@ watch(
         :value="modelValue"
         @input="handleInput"
         @blur="markAsTouched"
-        class="mt-2 border border-gray-200 rounded px-4 py-2 text-white focus:outline-none w-full"
+        class="mt-2 border-half-px border-gray-200 rounded px-4 py-2 text-white focus:outline-none w-full text-sm placeholder-gray-400"
         :class="[
           touched && !validationState.status
             ? 'border-red-400  focus:ring-red-200 text-red-400'
