@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import CompanyDetailForm from './forms/CompanyDetailForm.vue'
+import Sharedholders from './forms/Sharedholders.vue'
 
 const props = defineProps({
   currentSection: Number,
@@ -9,7 +10,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const components = [CompanyDetailForm, CompanyDetailForm, CompanyDetailForm]
+const components = [CompanyDetailForm, Sharedholders, CompanyDetailForm]
 const sectionKeyMap = ['company_detail', 'shareholders', 'beneficial_owner', 'director']
 
 const currentComponent = computed(() => components[props.currentSection])

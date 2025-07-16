@@ -36,7 +36,7 @@ function handleSectionChange(index) {
     />
 
     <!-- Form Detail Screen -->
-    <SectionForm :currentSection="0" v-model="formData" />
+    <SectionForm :currentSection="currentSection" v-model="formData" />
 
     <!-- Actions -->
     <Actions />

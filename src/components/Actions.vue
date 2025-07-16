@@ -1,29 +1,34 @@
 <template>
   <div class="flex justify-between mt-20 mb-30">
     <button
-      class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded"
+      class="bg-primary-dark border-half-px border-gray-200 text-white rounded-sm hover:bg-gray-800 py-2 px-8 cursor-pointer"
       :disabled="currentSection === 0"
       @click="$emit('prev')"
     >
-      Previous
+      <i class="me-2 fa-solid fa-arrow-left-long"></i>
+      BACK
     </button>
 
-    <div class="flex gap-4">
-      <button
-        v-if="currentSection < totalSections - 1"
-        class="bg-primary text-white px-6 py-2 rounded hover:bg-primary-light"
-        @click="$emit('next')"
+    <button
+      class="bg-primary-dark border-half-px border-gray-200 text-white rounded-sm hover:bg-gray-800 py-2 px-8 cursor-pointer"
+      :disabled="currentSection === 0"
+      @click="$emit('prev')"
+    >
+      <span class="text-[11px] text-gray-400">
+        I know the form autosaved but,<br /><span class="font-bold text-[13px] text-white"
+          >SAVE & EXIT</span
+        >
+        i wish to anyways. ;)</span
       >
-        Next
-      </button>
-      <button
-        v-else
-        class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700"
-        @click="$emit('save')"
-      >
-        Save
-      </button>
-    </div>
+    </button>
+
+    <button
+      class="bg-primary text-white rounded-sm hover:bg-primary-light py-2 px-8 cursor-pointer"
+      @click="$emit('next')"
+    >
+      NEXT
+      <i class="ms-2 fa-solid fa-arrow-right-long"></i>
+    </button>
   </div>
 </template>
 

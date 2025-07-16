@@ -41,7 +41,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const touched = ref(false)
+const touched = ref(props.modelValue != '' ? true : false)
 
 // Computed property to determine the current validation state based on the rule
 const validationState = computed(() => {
