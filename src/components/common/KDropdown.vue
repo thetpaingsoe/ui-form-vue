@@ -1,73 +1,3 @@
-<template>
-  <div class="flex flex-col">
-    <label :for="id" class="text-white font-medium mb-1">{{ label }}</label>
-    <div class="relative">
-      <div
-        :id="id"
-        @click="toggleDropdown"
-        @blur="markAsTouched"
-        tabindex="0"
-        class="mt-1 block w-full border border-gray-200 rounded-md px-4 py-2.5 pr-10 cursor-pointer focus:outline-none focus:ring-2 sm:text-sm"
-        :class="[
-          touched && !validationState.status
-            ? !isOpen
-              ? 'border-red-400 text-red-400'
-              : 'border-gray-300  focus:ring-blue-200 text-gray-400'
-            : modelValue != null
-              ? 'border-green-400  focus:ring-gren-400  text-white'
-              : 'border-gray-300  focus:ring-blue-200 text-gray-400',
-          // Add background color for the dropdown display area
-          'bg-primary-dark',
-        ]"
-      >
-        {{ selectedOptionText || placeholder }}
-      </div>
-
-      <!-- Dropdown Arrow Icon -->
-      <span
-        class="absolute right-4 top-1/2 -translate-y-1/2 text-lg text-gray-400 pointer-events-none"
-      >
-        <i
-          :class="[
-            isOpen ? 'fa-solid fa-caret-up' : 'fa-solid fa-caret-down',
-            touched && !validationState.status
-              ? !isOpen
-                ? ' text-red-400'
-                : ' text-gray-400'
-              : modelValue != null
-                ? ' text-green-400'
-                : ' text-gray-400',
-          ]"
-        ></i>
-      </span>
-
-      <!-- Dropdown Options List -->
-      <ul
-        v-if="isOpen"
-        class="absolute z-10 mt-1 w-full bg-primary-dark border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto focus:outline-none"
-        role="listbox"
-      >
-        <li
-          v-for="option in options"
-          :key="option.value"
-          @click="selectOption(option.value)"
-          class="px-4 py-2 cursor-pointer hover:bg-primary text-white"
-          :class="{ 'bg-primary text-white': modelValue === option.value }"
-          role="option"
-          :aria-selected="modelValue === option.value"
-        >
-          {{ option.text }}
-        </li>
-      </ul>
-    </div>
-
-    <!-- Error Message -->
-    <p v-if="touched && !validationState.status" class="mt-1 text-sm text-red-400">
-      {{ validationState.message }}
-    </p>
-  </div>
-</template>
-
 <script setup>
 import { ref, watch, computed, defineProps, defineEmits, onMounted, onUnmounted } from 'vue'
 
@@ -76,7 +6,7 @@ const props = defineProps({
     type: [String, Number, null], // Allow null for initial state
     default: null,
   },
-  id: {
+  cid: {
     type: String,
     required: true,
   },
@@ -150,7 +80,7 @@ const markAsTouched = () => {
 
 // Close dropdown when clicking outside
 const handleClickOutside = (event) => {
-  const dropdownElement = document.getElementById(props.id)?.closest('.relative')
+  const dropdownElement = document.getElementById(props.cid)?.closest('.relative')
   if (dropdownElement && !dropdownElement.contains(event.target)) {
     isOpen.value = false
     touched.value = true // Mark as touched when clicking outside
@@ -175,3 +105,73 @@ watch(
   },
 )
 </script>
+
+<template>
+  <div class="flex flex-col">
+    <label :for="cid" class="text-white font-medium mb-1">{{ label }}</label>
+    <div class="relative">
+      <div
+        :id="cid"
+        @click="toggleDropdown"
+        @blur="markAsTouched"
+        tabindex="0"
+        class="mt-1 block w-full border border-gray-200 rounded-md px-4 py-2.5 pr-10 cursor-pointer focus:outline-none focus:ring-2 sm:text-sm"
+        :class="[
+          touched && !validationState.status
+            ? !isOpen
+              ? 'border-red-400 text-red-400'
+              : 'border-gray-300  focus:ring-blue-200 text-gray-400'
+            : modelValue != null
+              ? 'border-green-400  focus:ring-gren-400  text-white'
+              : 'border-gray-300  focus:ring-blue-200 text-gray-400',
+          // Add background color for the dropdown display area
+          'bg-primary-dark',
+        ]"
+      >
+        {{ selectedOptionText || placeholder }}
+      </div>
+
+      <!-- Dropdown Arrow Icon -->
+      <span
+        class="absolute right-4 top-1/2 -translate-y-1/2 text-lg text-gray-400 pointer-events-none"
+      >
+        <i
+          :class="[
+            isOpen ? 'fa-solid fa-caret-up' : 'fa-solid fa-caret-down',
+            touched && !validationState.status
+              ? !isOpen
+                ? ' text-red-400'
+                : ' text-gray-400'
+              : modelValue != null
+                ? ' text-green-400'
+                : ' text-gray-400',
+          ]"
+        ></i>
+      </span>
+
+      <!-- Dropdown Options List -->
+      <ul
+        v-if="isOpen"
+        class="absolute z-10 mt-1 w-full bg-primary-dark border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto focus:outline-none"
+        role="listbox"
+      >
+        <li
+          v-for="option in options"
+          :key="option.value"
+          @click="selectOption(option.value)"
+          class="px-4 py-2 cursor-pointer hover:bg-primary text-white"
+          :class="{ 'bg-primary text-white': modelValue === option.value }"
+          role="option"
+          :aria-selected="modelValue === option.value"
+        >
+          {{ option.text }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Error Message -->
+    <p v-if="touched && !validationState.status" class="mt-1 text-sm text-red-400">
+      {{ validationState.message }}
+    </p>
+  </div>
+</template>

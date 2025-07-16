@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import KInput from '../common/KInput.vue'
 import KDropdown from '../common/KDropdown.vue'
 
@@ -80,13 +80,31 @@ const designationOptions = ref([
   { value: 'CTO', text: 'Chief Technology Officer' },
   { value: 'CMO', text: 'Chief Marketing Officer' },
 ])
-// 4. Define the validation rule for the dropdown
+
 const designationValidationRule = {
   validate: (value) => {
-    // A simple validation: ensures a value is selected and not null or an empty string
     return value !== null && value !== ''
   },
   message: 'Please select a designation from the list.',
+}
+
+// Jurisdiction of operation
+const selectedOperationCountry = ref(null)
+const operationCountryOptions = ref([
+  { value: null, text: 'Select the country where you are located' },
+  { value: 'SG', text: 'Singapore' },
+  { value: 'US', text: 'United States' },
+  { value: 'CA', text: 'Canada' },
+  { value: 'GB', text: 'United Kingdom' },
+  { value: 'AU', text: 'Australia' },
+  { value: 'TH', text: 'Thailand' },
+])
+
+const operationCountryValidationRule = {
+  validate: (value) => {
+    return value !== null && value !== ''
+  },
+  message: 'Please select a operation country from the list.',
 }
 </script>
 
@@ -152,6 +170,7 @@ const designationValidationRule = {
 
       <KDropdown
         id="company-designation"
+        cid="company-designation"
         label="Company designation"
         placeholder="Select the option that you prefer"
         v-model="selectedDesignation"
@@ -159,8 +178,30 @@ const designationValidationRule = {
         :validation-rule="designationValidationRule"
         class="mt-4"
       />
-
-      <div class="mt-[300px]" />
     </div>
   </div>
+  <!-- Countries of interest -->
+  <div class="mt-8 font-bold text-white">Countries of interest</div>
+  <div class="h-0.5 bg-primary-light ms-2"></div>
+  <div class="flex flex-row mt-8">
+    <div class="text-gray-300 basis-2/6 ms-4 text-sm">
+      We are required to check that the company will not be interacting with forbidden locations.
+      For 'jurisdiction of operation' if you are alone, select your country of residency. If you
+      have more shareholders, pick the most relevant. For 'target jurisdiction' select 1-3 countries
+      that are relevant. Even if you will have clients from other counties, it's ok.
+    </div>
+    <div class="flex flex-col basis-3/6 ms-12 text-white">
+      <KDropdown
+        id="operation-country"
+        cid="operation-country"
+        label="Jurisdiction of operation"
+        placeholder="Select the country where you are located"
+        v-model="selectedOperationCountry"
+        :options="operationCountryOptions"
+        :validation-rule="operationCountryValidationRule"
+        class="mt-4"
+      />
+    </div>
+  </div>
+  <div class="mt-[300px]" />
 </template>
