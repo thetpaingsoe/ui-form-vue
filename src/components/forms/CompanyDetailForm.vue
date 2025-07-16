@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import KInput from '../common/KInput.vue'
 import KDropdown from '../common/KDropdown.vue'
 import KMultiSelectDropdown from '../common/KMultiSelectDropdown.vue'
+import KNumberInput from '../common/KNumberInput.vue'
 
 // Full Name
 const fullName = ref('')
@@ -121,6 +122,22 @@ const targetCountryOptions = [
 const targetCountryValidation = {
   validate: (val) => val.length >= 1 && val.length <= 3,
   message: 'Please select 1 to 3 target jurisdictions',
+}
+
+// Number of shares
+const numOfShares = ref('')
+const numOfSharesValidationRule = {
+  validate: (value) => {
+    if (!value.trim()) {
+      return false // Empty or whitespace only
+    }
+    if (value < 1) {
+      return false // Specific disallowed name
+    }
+
+    return true
+  },
+  message: 'Please enter number of shares at least 1 share.',
 }
 </script>
 
@@ -245,14 +262,13 @@ const targetCountryValidation = {
       pick the smallest number.
     </div>
     <div class="flex flex-col basis-4/7 ms-12 text-white">
-      <KDropdown
-        id="operation-country"
-        cid="operation-country"
-        label="Jurisdiction of operation"
-        placeholder="Select the country where you are located"
-        v-model="selectedOperationCountry"
-        :options="operationCountryOptions"
-        :validation-rule="operationCountryValidationRule"
+      <KNumberInput
+        id="num-of-shares"
+        label="Number of Shares"
+        type="text"
+        placeholder="Select how many shares you wish to have"
+        v-model="numOfShares"
+        :validation-rule="numOfSharesValidationRule"
         class="mt-4"
       />
     </div>

@@ -65,7 +65,10 @@ watch(
 
 // Handle input event to update v-model
 const handleInput = (event) => {
-  emit('update:modelValue', event.target.value)
+  const rawValue = event.target.value
+  const numericValue = rawValue.replace(/[^0-9]/g, '') // Remove all non-digits
+  event.target.value = numericValue
+  emit('update:modelValue', numericValue)
 }
 
 // Mark the input as touched when it loses focus
