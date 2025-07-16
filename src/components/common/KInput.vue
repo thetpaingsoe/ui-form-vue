@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed, defineProps, defineEmits } from 'vue'
+import { ref, watch, computed, defineProps, defineEmits, onMounted } from 'vue'
 
 const props = defineProps({
   modelValue: {
@@ -33,6 +33,10 @@ const props = defineProps({
       message: '',
     }),
   },
+  validationState: {
+    type: Object,
+    default: null,
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -47,6 +51,17 @@ const validationState = computed(() => {
     message: isValid ? '' : props.validationRule.message,
   }
 })
+
+watch(
+  () => props.validationState,
+  (newVal) => {
+    if (newVal && typeof newVal === 'object' && newVal.status == true) {
+      touched.value = true
+      validationState.value = newVal
+    }
+  },
+  { immediate: true },
+)
 
 // Handle input event to update v-model
 const handleInput = (event) => {

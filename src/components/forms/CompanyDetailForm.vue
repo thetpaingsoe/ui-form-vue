@@ -41,6 +41,7 @@ const emailValidationRule = {
 
 // Company Name
 const companyName = ref('')
+const compnayNameValidateionState = ref({})
 const companyNameValidationRule = {
   validate: (value) => {
     if (!value.trim()) {
@@ -140,6 +141,7 @@ const targetCountryValidation = {
         placeholder="Enter full name"
         v-model="fullName"
         :validation-rule="fullNameValidationRule"
+        :validation-state="compnayNameValidateionState"
       />
 
       <KInput
@@ -226,6 +228,31 @@ const targetCountryValidation = {
         :options="targetCountryOptions"
         :validation-rule="targetCountryValidation"
         placeholder="Select the countries where your clients are located"
+        class="mt-4"
+      />
+    </div>
+  </div>
+
+  <!-- Shares structure -->
+  <div class="mt-8 font-bold text-white">Shares structure</div>
+  <div class="h-0.5 bg-primary-light ms-2"></div>
+  <div class="flex flex-row mt-8">
+    <div class="text-gray-300 basis-2/6 ms-4 text-sm">
+      All companies must have at least 1 share. Apart from that, you can structure things in
+      whatever way you like. Issued shares are shares that will be distributed from day 1. Unissued
+      shares are shares that you can distribute later on, i.e. to future team members or investors.
+      The value per shares represents your personal liabiity. So, if you wish to reduce risks, just
+      pick the smallest number.
+    </div>
+    <div class="flex flex-col basis-4/7 ms-12 text-white">
+      <KDropdown
+        id="operation-country"
+        cid="operation-country"
+        label="Jurisdiction of operation"
+        placeholder="Select the country where you are located"
+        v-model="selectedOperationCountry"
+        :options="operationCountryOptions"
+        :validation-rule="operationCountryValidationRule"
         class="mt-4"
       />
     </div>
