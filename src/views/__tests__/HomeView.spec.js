@@ -356,7 +356,7 @@ describe('Testing Home View', () => {
     expect(wrapper.text()).not.toContain('Please choose Yes or No.')
   })
 
-  it('testing are all shares are issued, but num of shares and issued shares are not same.', async () => {
+  it('testing are all shares are issued, issued shared will be cannot update and set auto num.', async () => {
     const wrapper = mount(HomeView, {})
 
     const radioGroup = wrapper.get('[data-test="are-all-shared-issued"]')
@@ -376,13 +376,7 @@ describe('Testing Home View', () => {
 
     const issuedShares = wrapper.get('[data-test="issued-shares"]')
 
-    await issuedShares.setValue('150')
-
-    await issuedShares.trigger('blur')
-
-    await nextTick()
-
-    expect(wrapper.text()).toContain('Please input the valid issued shares.')
+    expect(issuedShares.element.value).toBe('100')
   })
 
   it('testing are all shares are issued, but num of shares and issued shares are same.', async () => {

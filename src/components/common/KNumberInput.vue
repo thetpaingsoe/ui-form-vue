@@ -37,6 +37,10 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -101,6 +105,7 @@ watch(
         @blur="markAsTouched"
         inputmode="numeric"
         pattern="[0-9]*"
+        :disabled="props.disabled"
         class="mt-2 border-half-px border-gray-200 rounded px-4 py-2 text-white focus:outline-none w-full text-sm placeholder-gray-400"
         :class="[
           touched && !validationState.status

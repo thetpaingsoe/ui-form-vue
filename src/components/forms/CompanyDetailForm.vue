@@ -146,6 +146,14 @@ const numOfSharesValidationRule = {
 const areAllSharedIssuedValidateionState = ref({})
 const areAllSharedIssuedValidation = {
   validate: (val) => {
+    console.log(val)
+    if (val === true) {
+      modelValue.value.issuedShares = modelValue.value.numOfShares
+      issuedSharesValidateionState.value = {
+        status: true,
+        message: '',
+      }
+    }
     return val !== null
   },
   message: 'Please choose Yes or No.',
@@ -459,6 +467,7 @@ defineExpose({ validate })
         :validation-rule="issuedSharesValidationRule"
         :validation-state="issuedSharesValidateionState"
         class="mt-4"
+        :disabled="modelValue.areAllSharedIssued"
       />
 
       <KDropdown

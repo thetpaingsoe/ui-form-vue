@@ -1,7 +1,9 @@
 <template>
-  <div class="flex justify-between mt-20 mb-30">
+  <div class="flex justify-between content-between mt-20 mb-30">
+    <div v-if="currentSection === 0" class="basis-1/6"></div>
     <button
-      class="bg-primary-dark border-half-px border-gray-200 text-white rounded-sm hover:bg-gray-800 py-2 px-8"
+      v-else
+      class="bg-primary-dark border-half-px border-gray-200 w-auto text-white rounded-sm hover:bg-gray-800 py-2 px-8 basis-1/6"
       :disabled="currentSection === 0"
       @click="$emit('back', currentSection - 1)"
     >
@@ -10,7 +12,7 @@
     </button>
 
     <button
-      class="bg-primary-dark border-half-px border-gray-200 text-white rounded-sm hover:bg-gray-800 py-2 px-8 cursor-pointer"
+      class="bg-primary-dark border-half-px border-gray-200 text-white rounded-sm hover:bg-gray-800 py-2 px-8 cursor-pointer basis-1/3 w-fit"
       @click="$emit('save')"
     >
       <span class="text-[11px] text-gray-400">
@@ -21,9 +23,11 @@
       >
     </button>
 
+    <div v-if="currentSection == totalSections - 1" class="basis-1/6"></div>
     <button
+      v-else
       id="nextForm"
-      class="bg-primary text-white rounded-sm hover:bg-primary-light py-2 px-8 cursor-pointer"
+      class="bg-primary text-white rounded-sm hover:bg-primary-light py-2 px-8 cursor-pointer basis-1/6 w-fit"
       @click="$emit('next', currentSection + 1)"
     >
       NEXT

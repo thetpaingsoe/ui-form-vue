@@ -48,13 +48,14 @@ function handleNext() {}
     />
 
     <!-- Form Detail Screen -->
-    <SectionForm :currentSection="currentSection" v-model="formData" ref="sectionFormRef" />
+    <SectionForm :current-section="currentSection" v-model="formData" ref="sectionFormRef" />
 
     <!-- Actions -->
     <Actions
-      @next="handleSectionChange"
-      :currentSection="currentSection"
-      @back="handleSectionChange"
+      @next="(data) => handleSectionChange(data)"
+      :current-section="currentSection"
+      :total-sections="sections.length"
+      @back="(data) => handleSectionChange(data)"
     />
   </main>
 </template>
